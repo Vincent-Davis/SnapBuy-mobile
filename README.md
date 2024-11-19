@@ -1,4 +1,80 @@
 # snap_buy
+
+# Tugas 9
+
+## Mengapa Kita Perlu Membuat Model untuk Pengambilan atau Pengiriman Data JSON? Apakah Akan Terjadi Error Jika Kita Tidak Membuat Model Terlebih Dahulu?
+
+* Struktur Data yang Konsisten: Model berfungsi sebagai representasi struktural dari data yang akan kita gunakan dalam aplikasi. Dengan model, kita dapat memastikan bahwa data yang diambil atau dikirim memiliki struktur yang konsisten dan sesuai dengan yang diharapkan.
+
+* Kemudahan Serialisasi dan Deserialisasi: Model mempermudah proses konversi data dari format JSON ke objek dalam aplikasi (deserialisasi) dan sebaliknya (serialisasi). Ini penting untuk memanipulasi data secara efisien.
+
+* Validasi Data: Model memungkinkan kita untuk menambahkan validasi pada data yang masuk, sehingga data yang disimpan atau ditampilkan selalu valid dan sesuai dengan aturan bisnis yang telah ditetapkan.
+
+Hal yang terjadi bila model tidak dibuat terlebih dahulu : 
+
+* Di Django:
+
+   * Error pada Database Operations: Jika kita mencoba melakukan operasi database tanpa model, Django tidak akan tahu bagaimana memetakan data ke tabel di database, sehingga akan terjadi error.
+   * Masalah Validasi: Tanpa model, kita kehilangan lapisan validasi data yang penting.
+
+* Di Flutter:
+
+   * Kesulitan dalam Parsing Data: Tanpa model, kita harus mengelola data JSON secara manual, yang rentan terhadap error dan menyulitkan proses debugging.
+   * Tidak Efisien: Manipulasi data tanpa model dapat menyebabkan kode yang tidak rapi dan sulit dipelihara.
+
+## Fungsi dari Library http yang Diimplementasikan pada Tugas Ini
+
+Library http pada Flutter adalah paket yang digunakan untuk melakukan permintaan HTTP ke server, seperti GET, POST, PUT, DELETE, dan lain-lain.
+
+Fungsi dalam Tugas Ini:
+
+* Melakukan Request ke Server: Library ini digunakan untuk mengirim permintaan ke server Django, misalnya untuk mengambil data produk atau mengirim data produk baru.
+
+* Mengelola Respons: Menerima respons dari server dan mengelolanya, seperti parsing data JSON yang diterima menjadi model Dart untuk digunakan dalam aplikasi.
+
+## Fungsi dari CookieRequest dan Mengapa Instance CookieRequest Perlu Dibagikan ke Semua Komponen di Aplikasi Flutter
+
+CookieRequest adalah kelas yang disediakan oleh paket pbp_django_auth yang digunakan untuk mengelola sesi autentikasi dengan server Django. Kelas ini menangani pengiriman cookie sesi sehingga server dapat mengenali permintaan yang berasal dari klien yang telah terautentikasi.
+
+* Fungsi dalam aplikasi : 
+
+   * Mengelola Autentikasi: Menangani proses login, logout, dan menjaga status autentikasi pengguna selama sesi aplikasi berjalan.
+
+   * Menyimpan Cookie Sesi: Memungkinkan pengiriman cookie secara otomatis pada setiap permintaan HTTP, sehingga server dapat mengidentifikasi pengguna yang sedang aktif.
+
+* Mengapa Perlu Dibagikan ke Semua Komponen:
+
+   * Konsistensi Data: Dengan membagikan instance CookieRequest ke seluruh komponen, semua bagian aplikasi memiliki akses ke status autentikasi dan dapat melakukan permintaan HTTP yang memerlukan autentikasi.
+
+   * State Management: Menggunakan Provider untuk membagikan instance ini memastikan bahwa perubahan pada status autentikasi (misalnya, setelah login atau logout) dapat diberitahukan ke seluruh widget yang memerlukan.
+
+## Mekanisme Pengiriman Data dari Input hingga Ditampilkan pada Flutter
+
+1. Input Data pada Flutter:
+
+   * Pengguna memasukkan data melalui form input di aplikasi Flutter.
+   * Contoh: Form untuk menambahkan produk baru dengan field seperti nama, harga, deskripsi, dll.
+
+2. Mengirim Data ke Server:
+
+   * Setelah pengguna mengisi form dan menekan tombol submit, aplikasi Flutter akan mengirim data tersebut ke server menggunakan HTTP request (biasanya metode POST).
+   * Data dikirim dalam format JSON.
+
+3. Proses di Server (Django):
+
+   * Server menerima request dan mem-parsing data JSON yang diterima.
+   * Django view memproses data, melakukan validasi, dan menyimpan data ke database melalui model yang telah ditentukan.
+
+4. Respons dari Server:
+
+   * Setelah data disimpan, server mengirimkan respons kembali ke Flutter, biasanya berupa status sukses atau error beserta pesan.
+
+5. Menampilkan Data pada Flutter:
+
+   * Aplikasi Flutter menerima respons dan memberikan feedback kepada pengguna, misalnya menampilkan pesan sukses.
+   * Untuk menampilkan data yang telah disimpan, aplikasi dapat melakukan fetch data dari server (GET request), mem-parsing data JSON yang diterima menjadi model Dart.
+   * Data kemudian ditampilkan pada widget, seperti ListView, untuk dilihat oleh pengguna.
+
 # Tugas 8
 ##  Apa kegunaan const di Flutter? Jelaskan apa keuntungan ketika menggunakan const pada kode Flutter. Kapan sebaiknya kita menggunakan const, dan kapan sebaiknya tidak digunakan?
 
